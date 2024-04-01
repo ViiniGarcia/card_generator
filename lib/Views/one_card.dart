@@ -1,4 +1,9 @@
+import 'package:card_generator/Classes/card.dart';
+import 'package:card_generator/Views/view_card.dart';
 import 'package:flutter/material.dart';
+
+typedef FormCallback = Null Function(String nameController,
+    String nicknameController, String squadSelectedController);
 
 class OneCard extends StatefulWidget {
   const OneCard({super.key});
@@ -8,7 +13,12 @@ class OneCard extends StatefulWidget {
 }
 
 class _OneCardState extends State<OneCard> {
-  void teste() {}
+  late CardEJC card;
+  final List<CardEJC> listCard = [];
+  String name = '';
+  String nickname = '';
+  String squadSelected = '';
+  bool isLargeScreen = false;
 
   @override
   Widget build(BuildContext context) {
@@ -16,19 +26,43 @@ class _OneCardState extends State<OneCard> {
       body: OrientationBuilder(
         builder: (context, orientation) {
           if (MediaQuery.of(context).size.width > 1000) {
-            return const Row(
-              children: [
-                Expanded(flex: 3, child: FormOneCard()),
-                Expanded(
-                    flex: 7,
-                    child: Center(
-                      child: Text('teste'),
-                    ))
-              ],
-            );
+            isLargeScreen = true;
           } else {
-            return const Expanded(child: FormOneCard());
+            isLargeScreen = false;
           }
+          return Row(
+            children: [
+              Expanded(
+                  flex: 3,
+                  child: FormOneCard(
+                    formCallback: (nameController, nicknameController,
+                        squadSelectedController) {
+                      setState(() {
+                        listCard.clear();
+                        listCard.add(CardEJC(
+                            name: nameController,
+                            nickname: nicknameController,
+                            squad: squadSelectedController));
+                      });
+                      if (!isLargeScreen) {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return ViewCardPage(
+                            listCards: listCard,
+                          );
+                        }));
+                      }
+                    },
+                  )),
+              isLargeScreen
+                  ? Expanded(
+                      flex: 7,
+                      child: ViewCard(
+                        listCards: listCard,
+                      ))
+                  : Container(),
+            ],
+          );
         },
       ),
     );
@@ -37,7 +71,9 @@ class _OneCardState extends State<OneCard> {
 
 //Widget Form One Card
 class FormOneCard extends StatefulWidget {
-  const FormOneCard({super.key});
+  final FormCallback formCallback;
+
+  FormOneCard({super.key, required this.formCallback});
 
   @override
   State<FormOneCard> createState() => _FormOneCardState();
@@ -61,7 +97,8 @@ class _FormOneCardState extends State<FormOneCard> {
     DropdownMenuEntry(value: 'Sala', label: 'Sala'),
     DropdownMenuEntry(value: 'Teatro', label: 'Teatro'),
   ];
-  final  squadSelected = TextEditingController();
+
+  final squadSelectedController = TextEditingController();
   final nameController = TextEditingController();
   final nicknameController = TextEditingController();
 
@@ -81,12 +118,13 @@ class _FormOneCardState extends State<FormOneCard> {
               dropdownMenuEntries: dropdownMenuItens,
               expandedInsets: const EdgeInsets.all(10),
               menuHeight: MediaQuery.of(context).size.height * 0.3,
-              controller: squadSelected,
+              controller: squadSelectedController,
             ),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.01,
             ),
             TextFormField(
+              controller: nameController,
               decoration: const InputDecoration(
                 hintText: 'Nome completo',
               ),
@@ -101,6 +139,7 @@ class _FormOneCardState extends State<FormOneCard> {
               height: MediaQuery.of(context).size.height * 0.01,
             ),
             TextFormField(
+              controller: nicknameController,
               decoration: const InputDecoration(
                 hintText: 'Apelido',
               ),
@@ -116,13 +155,10 @@ class _FormOneCardState extends State<FormOneCard> {
             ),
             ElevatedButton(
               onPressed: () {
-                // Validate will return true if the form is valid, or false if
-                // the form is invalid.
                 if (_formKey.currentState!.validate() &&
-                    squadSelected.text != '') {
-                  print(squadSelected.text);
-                  print(nameController.text);
-                  print(nicknameController.text);
+                    squadSelectedController.text != '') {
+                  widget.formCallback(nameController.text,
+                      nicknameController.text, squadSelectedController.text);
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
@@ -140,12 +176,3 @@ class _FormOneCardState extends State<FormOneCard> {
     );
   }
 }
-
-
-// onSelected: (squad) {
-//                 if (squad != null) {
-//                   setState(() {
-//                     _squadSelected = squad;
-//                   });
-//                 }
-//               },
