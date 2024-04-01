@@ -1,4 +1,4 @@
-import 'package:card_generator/Views/one_card_form.dart';
+import 'package:card_generator/Views/one_card.dart';
 import 'package:flutter/material.dart';
 
 class HomeCardsGenerator extends StatefulWidget {
@@ -21,8 +21,8 @@ class _HomeCardsGeneratorState extends State<HomeCardsGenerator> {
         title: const Text('Gerador de crachás EJC'),
       ),
       body: [
-        const OneCardForm(),
-        const OneCardForm()
+        const OneCard(),
+        const OneCard()
       ][currentPageIndex],
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index){
