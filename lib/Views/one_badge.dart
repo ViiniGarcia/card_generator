@@ -1,20 +1,20 @@
-import 'package:card_generator/Classes/card.dart';
-import 'package:card_generator/Views/view_card.dart';
+import 'package:card_generator/Classes/badge.dart';
+import 'package:card_generator/Views/view_badge.dart';
 import 'package:flutter/material.dart';
 
 typedef FormCallback = Null Function(String nameController,
     String nicknameController, String squadSelectedController);
 
-class OneCard extends StatefulWidget {
-  const OneCard({super.key});
+class OneBadge extends StatefulWidget {
+  const OneBadge({super.key});
 
   @override
-  State<OneCard> createState() => _OneCardState();
+  State<OneBadge> createState() => _OneBadgeState();
 }
 
-class _OneCardState extends State<OneCard> {
-  late CardEJC card;
-  final List<CardEJC> listCard = [];
+class _OneBadgeState extends State<OneBadge> {
+  late BadgeEJC badge;
+  final List<BadgeEJC> listBadge = [];
   String name = '';
   String nickname = '';
   String squadSelected = '';
@@ -34,12 +34,12 @@ class _OneCardState extends State<OneCard> {
             children: [
               Expanded(
                   flex: 3,
-                  child: FormOneCard(
+                  child: FormOneBadge(
                     formCallback: (nameController, nicknameController,
                         squadSelectedController) {
                       setState(() {
-                        listCard.clear();
-                        listCard.add(CardEJC(
+                        listBadge.clear();
+                        listBadge.add(BadgeEJC(
                           name: nameController,
                           nickname: nicknameController,
                           squad: squadSelectedController));
@@ -47,8 +47,8 @@ class _OneCardState extends State<OneCard> {
                       if (!isLargeScreen) {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                          return ViewCardPage(
-                            listCards: listCard,
+                          return ViewBadgePage(
+                            listBadges: listBadge,
                           );
                         }));
                       }
@@ -66,8 +66,8 @@ class _OneCardState extends State<OneCard> {
               isLargeScreen
                   ? Expanded(
                       flex: 7,
-                      child: ViewCardPage(
-                        listCards: listCard,
+                      child: ViewBadgePage(
+                        listBadges: listBadge,
                       ))
                   : Container(),
             ],
@@ -78,17 +78,17 @@ class _OneCardState extends State<OneCard> {
   }
 }
 
-//Widget Form One Card
-class FormOneCard extends StatefulWidget {
+//Widget Form One Badge
+class FormOneBadge extends StatefulWidget {
   final FormCallback formCallback;
 
-  const FormOneCard({super.key, required this.formCallback});
+  const FormOneBadge({super.key, required this.formCallback});
 
   @override
-  State<FormOneCard> createState() => _FormOneCardState();
+  State<FormOneBadge> createState() => _FormOneBadgeState();
 }
 
-class _FormOneCardState extends State<FormOneCard> {
+class _FormOneBadgeState extends State<FormOneBadge> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final dropdownMenuItens = const [
     DropdownMenuEntry(value: 'Bomboniere', label: 'Bomboniere'),

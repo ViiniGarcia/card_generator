@@ -1,4 +1,4 @@
-import 'package:card_generator/Classes/card.dart';
+import 'package:card_generator/Classes/badge.dart';
 import 'package:excel/excel.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
@@ -31,15 +31,15 @@ pickerExcelFile() async {
   }
 }
 
-Future<void> printDoc(List<CardEJC> listCards) async {
+Future<void> printDoc(List<BadgeEJC> listBadges) async {
   final img = await rootBundle.load("lib/Assets/testCard.jpg");
   final imageBytes = img.buffer.asUint8List();
   final doc = pw.Document();
   Uint8List pdf;
-  List<pw.Widget> cardsWidgets = [];
+  List<pw.Widget> badgesWidgets = [];
 
-  for (var cardInfo in listCards) {
-    cardsWidgets.add(pw.Container(
+  for (var badgeInfo in listBadges) {
+    badgesWidgets.add(pw.Container(
       width: 378,
       height: 265,
       decoration: pw.BoxDecoration(
@@ -49,9 +49,9 @@ Future<void> printDoc(List<CardEJC> listCards) async {
         ),
       ),
       child: pw.Column(children: [
-        pw.Text(cardInfo.name),
-        pw.Text(cardInfo.nickname),
-        pw.Text(cardInfo.squad),
+        pw.Text(badgeInfo.name),
+        pw.Text(badgeInfo.nickname),
+        pw.Text(badgeInfo.squad),
       ]),
     ));
   }
@@ -65,7 +65,7 @@ Future<void> printDoc(List<CardEJC> listCards) async {
             mainAxisSpacing: 10,
             crossAxisSpacing: 10,
             childAspectRatio: 2480/3508,
-            children: cardsWidgets,
+            children: badgesWidgets,
           )
         ];
       }));

@@ -1,15 +1,15 @@
-import 'package:card_generator/Views/one_card.dart';
+import 'package:card_generator/Views/one_badge.dart';
 import 'package:flutter/material.dart';
 
-class HomeCardsGenerator extends StatefulWidget {
-  const HomeCardsGenerator
+class HomeBadgesGenerator extends StatefulWidget {
+  const HomeBadgesGenerator
 ({super.key});
 
   @override
-  State<HomeCardsGenerator> createState() => _HomeCardsGeneratorState();
+  State<HomeBadgesGenerator> createState() => _HomeBadgesGeneratorState();
 }
 
-class _HomeCardsGeneratorState extends State<HomeCardsGenerator> {
+class _HomeBadgesGeneratorState extends State<HomeBadgesGenerator> {
 
   int currentPageIndex = 0;
 
@@ -21,8 +21,8 @@ class _HomeCardsGeneratorState extends State<HomeCardsGenerator> {
         title: const Text('Gerador de crachás EJC'),
       ),
       body: [
-        const OneCard(),
-        const OneCard()
+        const OneBadge(),
+        const OneBadge()
       ][currentPageIndex],
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index){

@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const HomeCardsGenerator(),//const PrintableTest(),//const MyHomePage(title: 'Gerador de crachás EJC'),
+      home: const HomeBadgesGenerator(),//const PrintableTest(),//const MyHomePage(title: 'Gerador de crachás EJC'),
     );
   }
 }

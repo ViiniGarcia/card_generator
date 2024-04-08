@@ -1,11 +1,11 @@
-import 'package:card_generator/Classes/card.dart';
+import 'package:card_generator/Classes/badge.dart';
 import 'package:card_generator/Utils/functions.dart';
 import 'package:flutter/material.dart';
 
-class ViewCardPage extends StatelessWidget {
-  final List<CardEJC> listCards;
+class ViewBadgePage extends StatelessWidget {
+  final List<BadgeEJC> listBadges;
 
-  const ViewCardPage({super.key, required this.listCards});
+  const ViewBadgePage({super.key, required this.listBadges});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class ViewCardPage extends StatelessWidget {
         actions: [
           ElevatedButton.icon(
               onPressed: () {
-                printDoc(listCards);
+                printDoc(listBadges);
               },
               icon: const Icon(Icons.print),
               label: const Text('Imprimir')),
@@ -24,17 +24,17 @@ class ViewCardPage extends StatelessWidget {
           )
         ],
       ),
-      body: ViewCard(
-        listCards: listCards,
+      body: ViewBadge(
+        listBadges: listBadges,
       ),
     );
   }
 }
 
-class ViewCard extends StatelessWidget {
-  final List<CardEJC> listCards;
+class ViewBadge extends StatelessWidget {
+  final List<BadgeEJC> listBadges;
 
-  const ViewCard({super.key, required this.listCards});
+  const ViewBadge({super.key, required this.listBadges});
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class ViewCard extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.02, 0,
           MediaQuery.of(context).size.width * 0.02, 0),
       child: GridView.builder(
-          itemCount: listCards.length,
+          itemCount: listBadges.length,
           gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
             maxCrossAxisExtent: MediaQuery.of(context).size.height * 0.2,
             mainAxisSpacing: 10,
@@ -50,7 +50,7 @@ class ViewCard extends StatelessWidget {
             childAspectRatio: 378 / 265,
           ),
           itemBuilder: (BuildContext context, index) {
-            if (listCards.isEmpty) {
+            if (listBadges.isEmpty) {
               return Container();
             } else {
               //tamanho do cracha 265px / 378px
@@ -65,9 +65,9 @@ class ViewCard extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    Text(listCards[index].name),
-                    Text(listCards[index].nickname),
-                    Text(listCards[index].squad),
+                    Text(listBadges[index].name),
+                    Text(listBadges[index].nickname),
+                    Text(listBadges[index].squad),
                   ],
                 )
               );
