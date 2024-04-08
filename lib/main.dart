@@ -1,6 +1,4 @@
 import 'package:card_generator/Views/home.dart';
-import 'package:card_generator/Views/one_card.dart';
-import 'package:card_generator/Views/print_test.dart';
 import 'package:flutter/material.dart';
 
 void main() {

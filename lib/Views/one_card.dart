@@ -40,9 +40,9 @@ class _OneCardState extends State<OneCard> {
                       setState(() {
                         listCard.clear();
                         listCard.add(CardEJC(
-                            name: nameController,
-                            nickname: nicknameController,
-                            squad: squadSelectedController));
+                          name: nameController,
+                          nickname: nicknameController,
+                          squad: squadSelectedController));
                       });
                       if (!isLargeScreen) {
                         Navigator.push(context,
@@ -55,9 +55,18 @@ class _OneCardState extends State<OneCard> {
                     },
                   )),
               isLargeScreen
+                  ? const VerticalDivider(
+                      width: 20,
+                      thickness: 1,
+                      indent: 20,
+                      endIndent: 0,
+                      color: Colors.grey,
+                    )
+                  : Container(),
+              isLargeScreen
                   ? Expanded(
                       flex: 7,
-                      child: ViewCard(
+                      child: ViewCardPage(
                         listCards: listCard,
                       ))
                   : Container(),
@@ -73,7 +82,7 @@ class _OneCardState extends State<OneCard> {
 class FormOneCard extends StatefulWidget {
   final FormCallback formCallback;
 
-  FormOneCard({super.key, required this.formCallback});
+  const FormOneCard({super.key, required this.formCallback});
 
   @override
   State<FormOneCard> createState() => _FormOneCardState();
