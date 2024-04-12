@@ -1,3 +1,4 @@
+import 'package:card_generator/Views/many_badges.dart';
 import 'package:card_generator/Views/one_badge.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +23,7 @@ class _HomeBadgesGeneratorState extends State<HomeBadgesGenerator> {
       ),
       body: [
         const OneBadge(),
-        const OneBadge()
+        const ManyBadges()
       ][currentPageIndex],
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index){

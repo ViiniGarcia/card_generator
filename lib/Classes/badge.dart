@@ -5,3 +5,5 @@ class BadgeEJC{
 
   BadgeEJC({required this.name, required this.nickname, required this.squad});
 }
+
+enum TypeBadge {Encontrista, Encontreiro}
