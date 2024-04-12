@@ -7,7 +7,7 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 
-pickerExcelFile() async {
+Future<List<BadgeEJC>> pickerExcelFile() async {
   // Lets the user pick one file, but only files with the extensions `svg` and `pdf` can be selected
   FilePickerResult? pickedFile = await FilePicker.platform.pickFiles(
     type: FileType.custom,
@@ -15,20 +15,22 @@ pickerExcelFile() async {
     allowMultiple: false,
   );
 
+  List<BadgeEJC> listBadges = [];
+  
   if (pickedFile != null) {
-    var bytes = pickedFile.files.single.bytes;
-    var excel = Excel.decodeBytes(bytes!);
-    for (var table in excel.tables.keys) {
-      print(table); //sheet Name
-      print(excel.tables[table]?.maxColumns);
-      print(excel.tables[table]?.maxRows);
-      for (var row in excel.tables[table]!.rows) {
-        for (var cell in row) {
-          print(cell?.value);
-        }
-      }
+    Uint8List? bytes = pickedFile.files.single.bytes;
+    Excel excel = Excel.decodeBytes(bytes!);
+    Sheet? table = excel.tables['Respostas ao formulário 1'];
+    int? qntRows = table?.maxRows;
+
+    for (int x = 1; x<=(qntRows! - 1); x++){
+      var squad = table!.row(x).elementAt(1)?.value.toString();
+      var name = table.row(x).elementAt(2)?.value.toString();
+      var nickname = table.row(x).elementAt(3)?.value.toString();
+      listBadges.add(BadgeEJC(name: name!, nickname: nickname!, squad: squad!));
     }
   }
+  return listBadges;
 }
 
 Future<void> printDoc(List<BadgeEJC> listBadges) async {
