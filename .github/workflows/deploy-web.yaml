@@ -1,4 +1,4 @@
-name: Deploy Web
+name: Deploy-Web
 
 on:
   push:
@@ -6,10 +6,10 @@ on:
       - main
 
 jobs:
-  web:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Deploy
-        run: |
-          make deploy-web
+    - name: checkout repo
+      uses: actions/checkout@main
+    - name: build application
+      run: make build
