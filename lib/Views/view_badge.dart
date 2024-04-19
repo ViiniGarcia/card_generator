@@ -59,7 +59,7 @@ class ViewBadge extends StatelessWidget {
                 height: 265,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: Image.asset("lib/Assets/testCard.jpg").image,
+                    image: Image.asset("assets/testCard.jpg").image,
                     fit: BoxFit.cover,
                   ),
                 ),
