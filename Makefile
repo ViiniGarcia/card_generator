@@ -2,7 +2,7 @@
 
 # Update These Variables
 BASE_HREF = '/badge-gen-website/'
-GITHUB_REPO = https://github.com/ViiniGarcia/badge-gen-website.git
+GITHUB_REPO = https://${{secrets.DEPLOY}}@github.com/ViiniGarcia/badge-gen-website.git
 BUILD_VERSION := $(shell grep 'version:' pubspec.yaml | awk '{print $$2}')
 
 deploy-web:
