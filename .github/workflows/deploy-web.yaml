@@ -35,5 +35,5 @@ jobs:
         git add .
         git commit -m "update"
         git branch -M main
-        git remote add origin https://${{secrets.TOKEN}}@github.com/ViiniGarcia/card_generator.git
+        git remote add origin https://${{secrets.TOKEN}}@github.com/ViiniGarcia/badge-gen-website.git
         git push -u --force origin main
