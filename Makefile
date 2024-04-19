@@ -10,8 +10,8 @@ deploy-web:
 	@echo "Deploying to git repository"
 	cd build/web && \
 	git init && \
-	git config --global user.email viniciusgrlopes@hotmail.com
-    git config --global user.name ViiniGarcia
+	git config --global user.email viniciusgrlopes@hotmail.com && \
+    git config --global user.name ViiniGarcia && \
 	git add . && \
 	git commit -m "Deploy Version $(BUILD_VERSION)" && \
 	git branch -M main && \
