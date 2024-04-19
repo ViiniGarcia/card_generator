@@ -6,15 +6,7 @@ GITHUB_REPO = https://github.com/ViiniGarcia/badge-gen-website.git
 BUILD_VERSION := $(shell grep 'version:' pubspec.yaml | awk '{print $$2}')
 
 deploy-web:
-	@echo "Clean existing repository..."
-	flutter clean
-
-	@echo "Getting packages..."
-	flutter pub get
-
-	@echo "Building for web..."
-	flutter build web --base-href $(BASE_HREF) --release
-
+	
 	@echo "Deploying to git repository"
 	cd build/web && \
 	git init && \

@@ -20,3 +20,12 @@ git branch -M main
 git push -u origin main
 
 /badge-gen-website/
+
+@echo "Clean existing repository..."
+	flutter clean
+
+	@echo "Getting packages..."
+	flutter pub get
+
+	@echo "Building for web..."
+	flutter build web --base-href $(BASE_HREF) --release
