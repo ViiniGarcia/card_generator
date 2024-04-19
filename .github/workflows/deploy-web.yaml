@@ -12,4 +12,4 @@ jobs:
     - name: checkout repo
       uses: actions/checkout@main
     - name: build application
-      run: make build
+      run: make deploy-web
