@@ -25,6 +25,15 @@ jobs:
 
     - name: Build Web Release
       run: flutter build web --base-href /badge-gen-website/ --release
-      
+
     - name: Deploy
-      run: make deploy-web
+      run: |
+        cd build/web
+        git init
+        git config --global user.email viniciusgrlopes@hotmail.com
+        git config --global user.name ViiniGarcia
+        git add .
+        git commit -m "update"
+        git branch -M main
+        git remote add origin https://${{secrets.TOKEN}}@github.com/toshiossada/toshiossada.github.io.git
+        git push -u --force origin main

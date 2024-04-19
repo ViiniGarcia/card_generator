@@ -7,6 +7,8 @@ BUILD_VERSION := $(shell grep 'version:' pubspec.yaml | awk '{print $$2}')
 
 deploy-web:
 	
+	flutter build web --base-href /badge-gen-website/ --release
+
 	@echo "Deploying to git repository"
 	cd build/web && \
 	git init && \
@@ -16,10 +18,7 @@ deploy-web:
 	git commit -m "Deploy Version $(BUILD_VERSION)" && \
 	git branch -M main && \
 	git remote add origin $(GITHUB_REPO) && \
-	git checkout -b main && \
-    git add --all && \
-    git commit -m "update" && \
-    git push origin main -f
+	git push -u --force origin main
 
 	cd ../..
 	@echo "🟢 Finished Deploy"
