@@ -16,7 +16,10 @@ deploy-web:
 	git commit -m "Deploy Version $(BUILD_VERSION)" && \
 	git branch -M main && \
 	git remote add origin $(GITHUB_REPO) && \
-	git push -u --force origin main
+	git checkout -b main && \
+    git add --all && \
+    git commit -m "update" && \
+    git push origin main -f
 
 	cd ../..
 	@echo "🟢 Finished Deploy"
