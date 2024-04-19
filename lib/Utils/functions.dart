@@ -34,7 +34,7 @@ Future<List<BadgeEJC>> pickerExcelFile() async {
 }
 
 Future<void> printDoc(List<BadgeEJC> listBadges) async {
-  final img = await rootBundle.load("lib/Assets/testCard.jpg");
+  final img = await rootBundle.load("assets/testCard.jpg");
   final imageBytes = img.buffer.asUint8List();
   final doc = pw.Document();
   Uint8List pdf;
