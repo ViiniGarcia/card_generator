@@ -1,6 +1,7 @@
 import 'package:card_generator/Classes/badge.dart';
 import 'package:excel/excel.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:pdf/pdf.dart';
@@ -33,7 +34,7 @@ Future<List<BadgeEJC>> pickerExcelFile() async {
   return listBadges;
 }
 
-Future<void> printDoc(List<BadgeEJC> listBadges) async {
+Future<void> printDoc(List<BadgeEJC> listBadges, Offset posName) async {
   final img = await rootBundle.load("assets/testCard.jpg");
   final imageBytes = img.buffer.asUint8List();
   final doc = pw.Document();
@@ -50,10 +51,17 @@ Future<void> printDoc(List<BadgeEJC> listBadges) async {
           fit: pw.BoxFit.cover,
         ),
       ),
-      child: pw.Column(children: [
-        pw.Text(badgeInfo.name),
-        pw.Text(badgeInfo.nickname),
-        pw.Text(badgeInfo.squad),
+      //TODO Alterações de teste de position
+      child: pw.Stack(
+        children: [
+          pw.Positioned(
+            left: posName.dx,
+            top: posName.dy,
+            child: pw.Text(badgeInfo.name,),
+          ),
+          //pw.Text(badgeInfo.name,),
+          //pw.Text(badgeInfo.nickname,textScaleFactor: 3),
+          //pw.Text(badgeInfo.squad),
       ]),
     ));
   }

@@ -2,10 +2,23 @@ import 'package:card_generator/Classes/badge.dart';
 import 'package:card_generator/Utils/functions.dart';
 import 'package:flutter/material.dart';
 
-class ViewBadgePage extends StatelessWidget {
+typedef OffsetCallback = Null Function(Offset posName,
+    Offset posNick, Offset posSquad);
+
+class ViewBadgePage extends StatefulWidget {
   final List<BadgeEJC> listBadges;
 
   const ViewBadgePage({super.key, required this.listBadges});
+
+  @override
+  State<ViewBadgePage> createState() => _ViewBadgePageState();
+}
+
+class _ViewBadgePageState extends State<ViewBadgePage> {
+
+  Offset posName = Offset.zero;
+  Offset posNick = Offset.zero;
+  Offset posSquad = Offset.zero;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +28,7 @@ class ViewBadgePage extends StatelessWidget {
         actions: [
           ElevatedButton.icon(
               onPressed: () {
-                printDoc(listBadges);
+                printDoc(widget.listBadges, posName);
               },
               icon: const Icon(Icons.print),
               label: const Text('Imprimir')),
@@ -25,16 +38,34 @@ class ViewBadgePage extends StatelessWidget {
         ],
       ),
       body: ViewBadge(
-        listBadges: listBadges,
+        listBadges: widget.listBadges, 
+        offsetCallback: (Offset posName, Offset posNick, Offset posSquad) {
+          setState(() {
+            posName = posName;
+            posNick = posNick;
+            posSquad = posSquad;
+          });
+        },
       ),
     );
   }
 }
 
-class ViewBadge extends StatelessWidget {
+class ViewBadge extends StatefulWidget {
   final List<BadgeEJC> listBadges;
+  final OffsetCallback offsetCallback;
 
-  const ViewBadge({super.key, required this.listBadges});
+  const ViewBadge({super.key, required this.listBadges, required this.offsetCallback});
+
+  @override
+  State<ViewBadge> createState() => _ViewBadgeState();
+}
+
+class _ViewBadgeState extends State<ViewBadge> {
+
+  Offset posName = Offset.zero;
+  Offset posNick = Offset.zero;
+  Offset posSquad = Offset.zero;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +73,7 @@ class ViewBadge extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.02, 0,
           MediaQuery.of(context).size.width * 0.02, 0),
       child: GridView.builder(
-          itemCount: listBadges.length,
+          itemCount: widget.listBadges.length,
           gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
             maxCrossAxisExtent: MediaQuery.of(context).size.height * 0.2,
             mainAxisSpacing: 10,
@@ -50,7 +81,7 @@ class ViewBadge extends StatelessWidget {
             childAspectRatio: 378 / 265,
           ),
           itemBuilder: (BuildContext context, index) {
-            if (listBadges.isEmpty) {
+            if (widget.listBadges.isEmpty) {
               return Container();
             } else {
               //tamanho do cracha 265px / 378px
@@ -63,11 +94,26 @@ class ViewBadge extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                 ),
-                child: Column(
+                child: Stack(
+                  fit: StackFit.expand,
                   children: [
-                    Text(listBadges[index].name),
-                    Text(listBadges[index].nickname),
-                    Text(listBadges[index].squad),
+                    Positioned(
+                      left: posName.dx,
+                      top: posName.dy,
+                      child: 
+                        GestureDetector(
+                          onPanUpdate: (details){
+                            setState(() {
+                              posName = Offset(posName.dx + details.delta.dx, posName.dy + details.delta.dy);
+                            });
+                            widget.offsetCallback(posName, posNick, posSquad);
+                          },
+                          child: Text(widget.listBadges[index].name),
+                        )
+                      ),
+                    //Text(widget.listBadges[index].name),
+                    //Text(widget.listBadges[index].nickname),
+                    //Text(widget.listBadges[index].squad),
                   ],
                 )
               );
