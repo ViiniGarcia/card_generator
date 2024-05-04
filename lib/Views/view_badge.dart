@@ -29,7 +29,6 @@ class _ViewBadgePageState extends State<ViewBadgePage> {
         actions: [
           ElevatedButton.icon(
               onPressed: () {
-                print(posName);
                 printDoc(widget.listBadges, posName);
               },
               icon: const Icon(Icons.print),
@@ -114,7 +113,7 @@ class _ViewBadgeState extends State<ViewBadge> {
                           child: Text(
                             widget.listBadges[index].name,
                             style: GoogleFonts.roboto(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                 fontSize: 10,
                               ),
                             ),
