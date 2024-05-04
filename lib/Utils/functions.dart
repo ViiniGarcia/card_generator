@@ -1,7 +1,6 @@
 import 'package:card_generator/Classes/badge.dart';
 import 'package:excel/excel.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:pdf/pdf.dart';
@@ -35,7 +34,8 @@ Future<List<BadgeEJC>> pickerExcelFile() async {
 }
 
 Future<void> printDoc(List<BadgeEJC> listBadges, Offset posName) async {
-  final img = await rootBundle.load("assets/testCard.jpg");
+  final img = await rootBundle.load("assets/testeCredential.jpg");
+  final font = await PdfGoogleFonts.robotoMedium();
   final imageBytes = img.buffer.asUint8List();
   final doc = pw.Document();
   Uint8List pdf;
@@ -43,8 +43,10 @@ Future<void> printDoc(List<BadgeEJC> listBadges, Offset posName) async {
 
   for (var badgeInfo in listBadges) {
     badgesWidgets.add(pw.Container(
-      width: 378,
-      height: 265,
+      //tamanho do cracha 378px / 265px
+      //tamanho cracha credencial 210px / 298px
+      width: 210,
+      height: 298,
       decoration: pw.BoxDecoration(
         image: pw.DecorationImage(
           image: pw.Image(pw.MemoryImage(imageBytes)).image,
@@ -53,11 +55,13 @@ Future<void> printDoc(List<BadgeEJC> listBadges, Offset posName) async {
       ),
       //TODO Alterações de teste de position
       child: pw.Stack(
+        fit: pw.StackFit.expand,
         children: [
           pw.Positioned(
             left: posName.dx,
             top: posName.dy,
-            child: pw.Text(badgeInfo.name,),
+            child: 
+              pw.Text(badgeInfo.name, style: pw.TextStyle(fontSize: 14, font: font)),
           ),
           //pw.Text(badgeInfo.name,),
           //pw.Text(badgeInfo.nickname,textScaleFactor: 3),
@@ -67,14 +71,16 @@ Future<void> printDoc(List<BadgeEJC> listBadges, Offset posName) async {
   }
 
   doc.addPage(pw.MultiPage(
+      maxPages: 500,
       pageFormat: PdfPageFormat.a4,
       build: (pw.Context context) {
         return [
           pw.GridView(
+            
             crossAxisCount: 2,
             mainAxisSpacing: 10,
             crossAxisSpacing: 10,
-            childAspectRatio: 2480/3508,
+            childAspectRatio: 298/210,
             children: badgesWidgets,
           )
         ];
