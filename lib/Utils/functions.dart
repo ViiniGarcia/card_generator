@@ -25,8 +25,8 @@ Future<List<BadgeEJC>> pickerExcelFile() async {
 
     for (int x = 1; x<=(qntRows! - 1); x++){
       var squad = table!.row(x).elementAt(1)?.value.toString();
-      var name = table.row(x).elementAt(2)?.value.toString();
-      var nickname = table.row(x).elementAt(3)?.value.toString();
+      var name = table.row(x).elementAt(2)?.value.toString().split(" ").nameCaptalize();
+      var nickname = table.row(x).elementAt(3)?.value.toString().split(" ").nameCaptalize();
       listBadges.add(BadgeEJC(name: name!, nickname: nickname!, squad: squad!));
     }
   }

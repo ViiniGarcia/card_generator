@@ -40,8 +40,8 @@ class _OneBadgeState extends State<OneBadge> {
                       setState(() {
                         listBadge.clear();
                         listBadge.add(BadgeEJC(
-                          name: nameController,
-                          nickname: nicknameController,
+                          name: nameController.split(" ").nameCaptalize(),
+                          nickname: nicknameController.split(" ").nameCaptalize(),
                           squad: squadSelectedController));
                       });
                       if (!isLargeScreen) {
