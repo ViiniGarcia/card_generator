@@ -81,7 +81,7 @@ class FormManyBadges extends StatefulWidget {
 
 class _FormManyBadgesState extends State<FormManyBadges> {
 
-  TypeBadge? _typeBadge = TypeBadge.Encontreiro;
+  TypeBadge? _typeBadge = TypeBadge.encontreiro;
   List<BadgeEJC> listBadges = [];
 
   @override
@@ -94,7 +94,7 @@ class _FormManyBadgesState extends State<FormManyBadges> {
           const Text('Selecione o tipo do crachá:'),
           RadioListTile<TypeBadge>(
             title: const Text('Encontreiro'),
-            value: TypeBadge.Encontreiro,
+            value: TypeBadge.encontreiro,
             groupValue: _typeBadge,
             onChanged: (TypeBadge? value) {
               setState(() {
@@ -104,7 +104,7 @@ class _FormManyBadgesState extends State<FormManyBadges> {
           ),
           RadioListTile<TypeBadge>(
             title: const Text('Encontrista'),
-            value: TypeBadge.Encontrista,
+            value: TypeBadge.encontrista,
             groupValue: _typeBadge,
             onChanged: (TypeBadge? value) {
               setState(() {

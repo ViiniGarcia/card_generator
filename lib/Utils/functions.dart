@@ -1,7 +1,6 @@
 import 'package:card_generator/Classes/badge.dart';
 import 'package:excel/excel.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:pdf/pdf.dart';
@@ -16,7 +15,7 @@ Future<List<BadgeEJC>> pickerExcelFile() async {
     allowMultiple: false,
   );
 
-  List<BadgeEJC> listBadges = [];
+  Set<BadgeEJC> listBadges = {}; // 238
   
   if (pickedFile != null) {
     Uint8List? bytes = pickedFile.files.single.bytes;
@@ -26,55 +25,63 @@ Future<List<BadgeEJC>> pickerExcelFile() async {
 
     for (int x = 1; x<=(qntRows! - 1); x++){
       var squad = table!.row(x).elementAt(1)?.value.toString();
-      var name = table.row(x).elementAt(2)?.value.toString();
-      var nickname = table.row(x).elementAt(3)?.value.toString();
+      var name = table.row(x).elementAt(2)?.value.toString().split(" ").nameCaptalize();
+      var nickname = table.row(x).elementAt(3)?.value.toString().split(" ").nameCaptalize();
       listBadges.add(BadgeEJC(name: name!, nickname: nickname!, squad: squad!));
     }
   }
-  return listBadges;
+
+  return listBadges.toList();
 }
 
-Future<void> printDoc(List<BadgeEJC> listBadges, Offset posName) async {
-  final img = await rootBundle.load("assets/testCard.jpg");
+Future<void> printDoc(List<BadgeEJC> listBadges) async {
+  final img = await rootBundle.load("assets/Regras.jpg");
+  final font = await PdfGoogleFonts.robotoMedium();
   final imageBytes = img.buffer.asUint8List();
   final doc = pw.Document();
   Uint8List pdf;
   List<pw.Widget> badgesWidgets = [];
 
+  listBadges.add(BadgeEJC(name: 'Vinicius Garcia Ribeiro Lopes', nickname: 'Tio Fulano da Siclana', squad: 'Regras'));
+  listBadges.add(BadgeEJC(name: 'Vinicius Garcia Ribeiro Lopes', nickname: 'Tio Vini', squad: 'Regras'));
+  listBadges.add(BadgeEJC(name: 'Vinicius Garcia Ribeiro Lopes', nickname: 'Tio Vini', squad: 'Regras'));
+  listBadges.add(BadgeEJC(name: 'Vinicius Garcia Ribeiro Lopes', nickname: 'Tio Vini', squad: 'Regras'));
+
   for (var badgeInfo in listBadges) {
     badgesWidgets.add(pw.Container(
-      width: 378,
-      height: 265,
+      //tamanho do cracha 378px / 265px
+      //tamanho cracha credencial 210px / 298px
+      width: 210,
+      height: 298,
+      padding: const pw.EdgeInsetsDirectional.fromSTEB(0, 0, 0, 50),
       decoration: pw.BoxDecoration(
         image: pw.DecorationImage(
           image: pw.Image(pw.MemoryImage(imageBytes)).image,
           fit: pw.BoxFit.cover,
         ),
       ),
-      //TODO Alterações de teste de position
-      child: pw.Stack(
+      child: pw.Column(
+        mainAxisAlignment: pw.MainAxisAlignment.end,
+        crossAxisAlignment: pw.CrossAxisAlignment.center,
         children: [
-          pw.Positioned(
-            left: posName.dx,
-            top: posName.dy,
-            child: pw.Text(badgeInfo.name,),
-          ),
-          //pw.Text(badgeInfo.name,),
-          //pw.Text(badgeInfo.nickname,textScaleFactor: 3),
-          //pw.Text(badgeInfo.squad),
-      ]),
+          pw.Text(badgeInfo.nickname, style: pw.TextStyle(fontSize: 24, font: font)),
+          pw.Text(badgeInfo.name, style: pw.TextStyle(fontSize: 10, font: font)),
+        ],
+      ),
     ));
   }
 
   doc.addPage(pw.MultiPage(
+      maxPages: 500,
       pageFormat: PdfPageFormat.a4,
       build: (pw.Context context) {
         return [
           pw.GridView(
+            
             crossAxisCount: 2,
             mainAxisSpacing: 10,
             crossAxisSpacing: 10,
-            childAspectRatio: 2480/3508,
+            childAspectRatio: 298/210,
             children: badgesWidgets,
           )
         ];
