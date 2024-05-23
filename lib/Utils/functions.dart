@@ -15,7 +15,7 @@ Future<List<BadgeEJC>> pickerExcelFile() async {
     allowMultiple: false,
   );
 
-  List<BadgeEJC> listBadges = [];
+  Set<BadgeEJC> listBadges = {}; // 238
   
   if (pickedFile != null) {
     Uint8List? bytes = pickedFile.files.single.bytes;
@@ -30,16 +30,22 @@ Future<List<BadgeEJC>> pickerExcelFile() async {
       listBadges.add(BadgeEJC(name: name!, nickname: nickname!, squad: squad!));
     }
   }
-  return listBadges;
+
+  return listBadges.toList();
 }
 
-Future<void> printDoc(List<BadgeEJC> listBadges, Offset posName) async {
-  final img = await rootBundle.load("assets/testeCredential.jpg");
+Future<void> printDoc(List<BadgeEJC> listBadges) async {
+  final img = await rootBundle.load("assets/Regras.jpg");
   final font = await PdfGoogleFonts.robotoMedium();
   final imageBytes = img.buffer.asUint8List();
   final doc = pw.Document();
   Uint8List pdf;
   List<pw.Widget> badgesWidgets = [];
+
+  listBadges.add(BadgeEJC(name: 'Vinicius Garcia Ribeiro Lopes', nickname: 'Tio Fulano da Siclana', squad: 'Regras'));
+  listBadges.add(BadgeEJC(name: 'Vinicius Garcia Ribeiro Lopes', nickname: 'Tio Vini', squad: 'Regras'));
+  listBadges.add(BadgeEJC(name: 'Vinicius Garcia Ribeiro Lopes', nickname: 'Tio Vini', squad: 'Regras'));
+  listBadges.add(BadgeEJC(name: 'Vinicius Garcia Ribeiro Lopes', nickname: 'Tio Vini', squad: 'Regras'));
 
   for (var badgeInfo in listBadges) {
     badgesWidgets.add(pw.Container(
@@ -47,26 +53,21 @@ Future<void> printDoc(List<BadgeEJC> listBadges, Offset posName) async {
       //tamanho cracha credencial 210px / 298px
       width: 210,
       height: 298,
+      padding: const pw.EdgeInsetsDirectional.fromSTEB(0, 0, 0, 50),
       decoration: pw.BoxDecoration(
         image: pw.DecorationImage(
           image: pw.Image(pw.MemoryImage(imageBytes)).image,
           fit: pw.BoxFit.cover,
         ),
       ),
-      //TODO Alterações de teste de position
-      child: pw.Stack(
-        fit: pw.StackFit.expand,
+      child: pw.Column(
+        mainAxisAlignment: pw.MainAxisAlignment.end,
+        crossAxisAlignment: pw.CrossAxisAlignment.center,
         children: [
-          pw.Positioned(
-            left: posName.dx,
-            top: posName.dy,
-            child: 
-              pw.Text(badgeInfo.name, style: pw.TextStyle(fontSize: 14, font: font)),
-          ),
-          //pw.Text(badgeInfo.name,),
-          //pw.Text(badgeInfo.nickname,textScaleFactor: 3),
-          //pw.Text(badgeInfo.squad),
-      ]),
+          pw.Text(badgeInfo.nickname, style: pw.TextStyle(fontSize: 24, font: font)),
+          pw.Text(badgeInfo.name, style: pw.TextStyle(fontSize: 10, font: font)),
+        ],
+      ),
     ));
   }
 
