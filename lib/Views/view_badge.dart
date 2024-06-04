@@ -74,7 +74,7 @@ class _ViewBadgeState extends State<ViewBadge> {
                 padding: EdgeInsets.fromLTRB(0, 0, 0, MediaQuery.of(context).size.width * 0.04),
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: Image.asset("assets/Regras.jpg").image,
+                    image: Image.asset("assets/${widget.listBadges[index].squad}.jpg").image,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -86,14 +86,16 @@ class _ViewBadgeState extends State<ViewBadge> {
                       widget.listBadges[index].nickname,
                       style: GoogleFonts.roboto(
                         textStyle: const TextStyle(
+                          fontWeight: FontWeight.w900,
                           fontSize: 24,
                         ),
                       ),
                     ),
                     Text(
                       widget.listBadges[index].name,
-                      style: GoogleFonts.roboto(
+                      style: GoogleFonts.robotoCondensed(
                         textStyle: const TextStyle(
+                          fontWeight: FontWeight.bold,
                           fontSize: 10,
                         ),
                       ),
