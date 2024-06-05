@@ -1,4 +1,5 @@
 import 'package:card_generator/Classes/badge.dart';
+import 'package:card_generator/Utils/extensions.dart';
 import 'package:card_generator/Views/view_badge.dart';
 import 'package:flutter/material.dart';
 
@@ -40,9 +41,9 @@ class _OneBadgeState extends State<OneBadge> {
                       setState(() {
                         listBadge.clear();
                         listBadge.add(BadgeEJC(
-                          name: nameController.split(" ").nameCaptalize(),
-                          nickname: nicknameController.split(" ").nameCaptalize(),
-                          squad: squadSelectedController));
+                          name: nameController.toUpperCase(),
+                          nickname: nicknameController.toUpperCase(),
+                          squad: squadSelectedController.removeSpecialCaracters()));
                       });
                       if (!isLargeScreen) {
                         Navigator.push(context,
@@ -92,19 +93,20 @@ class _FormOneBadgeState extends State<FormOneBadge> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final dropdownMenuItens = const [
     DropdownMenuEntry(value: 'Bomboniere', label: 'Bomboniere'),
-    DropdownMenuEntry(value: 'Café', label: 'Café'),
+    DropdownMenuEntry(value: 'Cafe', label: 'Café'),
     DropdownMenuEntry(value: 'Circulo', label: 'Circulo'),
     DropdownMenuEntry(value: 'Compras', label: 'Compras'),
-    DropdownMenuEntry(value: 'Cozinha', label: 'Dirigentes'),
+    DropdownMenuEntry(value: 'Cozinha', label: 'Cozinha'),
+    DropdownMenuEntry(value: 'Dirigentes', label: 'Dirigentes'),
     DropdownMenuEntry(value: 'Gerais', label: 'Gerais'),
     DropdownMenuEntry(value: 'Liturgia', label: 'Liturgia'),
     DropdownMenuEntry(value: 'Ordem', label: 'Ordem'),
     DropdownMenuEntry(value: 'Pascom', label: 'Pascom'),
-    DropdownMenuEntry(value: 'Patrimônio', label: 'Patrimônio'),
-    DropdownMenuEntry(value: 'Reflexão', label: 'Reflexão'),
+    DropdownMenuEntry(value: 'Reflexao', label: 'Reflexão'),
     DropdownMenuEntry(value: 'Regras', label: 'Regras'),
     DropdownMenuEntry(value: 'Sala', label: 'Sala'),
     DropdownMenuEntry(value: 'Teatro', label: 'Teatro'),
+    DropdownMenuEntry(value: 'Visitacao', label: 'Visitação'),
   ];
 
   final squadSelectedController = TextEditingController();

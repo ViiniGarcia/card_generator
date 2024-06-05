@@ -1,4 +1,5 @@
 import 'package:card_generator/Classes/badge.dart';
+import 'package:card_generator/Utils/extensions.dart';
 import 'package:excel/excel.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
@@ -24,9 +25,9 @@ Future<List<BadgeEJC>> pickerExcelFile() async {
     int? qntRows = table?.maxRows;
 
     for (int x = 1; x<=(qntRows! - 1); x++){
-      var squad = table!.row(x).elementAt(1)?.value.toString();
-      var name = table.row(x).elementAt(2)?.value.toString().split(" ").nameCaptalize();
-      var nickname = table.row(x).elementAt(3)?.value.toString().split(" ").nameCaptalize();
+      var squad = table!.row(x).elementAt(1)?.value.toString().removeSpecialCaracters();
+      var name = table.row(x).elementAt(2)?.value.toString().toUpperCase();
+      var nickname = table.row(x).elementAt(3)?.value.toString().toUpperCase();
       listBadges.add(BadgeEJC(name: name!, nickname: nickname!, squad: squad!));
     }
   }
@@ -36,24 +37,17 @@ Future<List<BadgeEJC>> pickerExcelFile() async {
 
 Future<void> printDoc(List<BadgeEJC> listBadges) async {
   final img = await rootBundle.load("assets/Regras.jpg");
-  final font = await PdfGoogleFonts.robotoMedium();
+  final robotoBlack = await PdfGoogleFonts.robotoBlack();
+  final robotoCondensed = await PdfGoogleFonts.robotoCondensedBold();
   final imageBytes = img.buffer.asUint8List();
   final doc = pw.Document();
   Uint8List pdf;
   List<pw.Widget> badgesWidgets = [];
-
-  listBadges.add(BadgeEJC(name: 'Vinicius Garcia Ribeiro Lopes', nickname: 'Tio Fulano da Siclana', squad: 'Regras'));
-  listBadges.add(BadgeEJC(name: 'Vinicius Garcia Ribeiro Lopes', nickname: 'Tio Vini', squad: 'Regras'));
-  listBadges.add(BadgeEJC(name: 'Vinicius Garcia Ribeiro Lopes', nickname: 'Tio Vini', squad: 'Regras'));
-  listBadges.add(BadgeEJC(name: 'Vinicius Garcia Ribeiro Lopes', nickname: 'Tio Vini', squad: 'Regras'));
-
+  
   for (var badgeInfo in listBadges) {
+    double fontSize = badgeInfo.nickname.length <= 10 ? 32 : 24;
     badgesWidgets.add(pw.Container(
-      //tamanho do cracha 378px / 265px
-      //tamanho cracha credencial 210px / 298px
-      width: 210,
-      height: 298,
-      padding: const pw.EdgeInsetsDirectional.fromSTEB(0, 0, 0, 50),
+      padding: const pw.EdgeInsetsDirectional.fromSTEB(0, 0, 0, 61),
       decoration: pw.BoxDecoration(
         image: pw.DecorationImage(
           image: pw.Image(pw.MemoryImage(imageBytes)).image,
@@ -64,8 +58,8 @@ Future<void> printDoc(List<BadgeEJC> listBadges) async {
         mainAxisAlignment: pw.MainAxisAlignment.end,
         crossAxisAlignment: pw.CrossAxisAlignment.center,
         children: [
-          pw.Text(badgeInfo.nickname, style: pw.TextStyle(fontSize: 24, font: font)),
-          pw.Text(badgeInfo.name, style: pw.TextStyle(fontSize: 10, font: font)),
+          pw.Text(badgeInfo.nickname, style: pw.TextStyle(fontSize: fontSize, font: robotoBlack)),
+          pw.Text(badgeInfo.name, style: pw.TextStyle(fontSize: 10, font: robotoCondensed)),
         ],
       ),
     ));
@@ -77,11 +71,10 @@ Future<void> printDoc(List<BadgeEJC> listBadges) async {
       build: (pw.Context context) {
         return [
           pw.GridView(
-            
             crossAxisCount: 2,
             mainAxisSpacing: 10,
             crossAxisSpacing: 10,
-            childAspectRatio: 298/210,
+            childAspectRatio: 1500 / 1000,
             children: badgesWidgets,
           )
         ];
