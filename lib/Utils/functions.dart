@@ -1,4 +1,5 @@
 import 'package:card_generator/Classes/badge.dart';
+import 'package:card_generator/Utils/extensions.dart';
 import 'package:excel/excel.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
@@ -24,9 +25,9 @@ Future<List<BadgeEJC>> pickerExcelFile() async {
     int? qntRows = table?.maxRows;
 
     for (int x = 1; x<=(qntRows! - 1); x++){
-      var squad = table!.row(x).elementAt(1)?.value.toString();
-      var name = table.row(x).elementAt(2)?.value.toString().split(" ").nameCaptalize();
-      var nickname = table.row(x).elementAt(3)?.value.toString().split(" ").nameCaptalize();
+      var squad = table!.row(x).elementAt(1)?.value.toString().removeSpecialCaracters();
+      var name = table.row(x).elementAt(2)?.value.toString().toUpperCase();
+      var nickname = table.row(x).elementAt(3)?.value.toString().toUpperCase();
       listBadges.add(BadgeEJC(name: name!, nickname: nickname!, squad: squad!));
     }
   }

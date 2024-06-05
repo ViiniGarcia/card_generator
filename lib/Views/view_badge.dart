@@ -48,9 +48,6 @@ class ViewBadge extends StatefulWidget {
 }
 
 class _ViewBadgeState extends State<ViewBadge> {
-  Offset posName = Offset.zero;
-  Offset posNick = Offset.zero;
-  Offset posSquad = Offset.zero;
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +58,6 @@ class _ViewBadgeState extends State<ViewBadge> {
           itemCount: widget.listBadges.length,
           gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
             maxCrossAxisExtent: MediaQuery.of(context).size.width * 0.2,
-            //maxCrossAxisExtent: 400,
             mainAxisSpacing: 10,
             crossAxisSpacing: 10,
             childAspectRatio: 1000 / 1500,
@@ -74,7 +70,7 @@ class _ViewBadgeState extends State<ViewBadge> {
                 padding: EdgeInsets.fromLTRB(0, 0, 0, MediaQuery.of(context).size.width * 0.04),
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: Image.asset("assets/${widget.listBadges[index].squad}.jpg").image,
+                    image: Image.asset("assets/${widget.listBadges[index].squad}.png").image,
                     fit: BoxFit.cover,
                   ),
                 ),
