@@ -4,9 +4,10 @@ extension ListExtension on List {
     int index = 0;
     for(String word in this){
       str += index > 0 ? " " : "";
-      str += word.length > 2 ? "${word[0].toUpperCase()}${word.substring(1).toLowerCase()}" : word.toLowerCase();
+      str += word.length > 4 ? "${word[0].toUpperCase()}${word.substring(1).toUpperCase()}" : word.toUpperCase();
       index++;
     }
+    print(str);
     return str;
   }
 }
@@ -19,7 +20,6 @@ extension StringExtension on String{
     for (int i = 0; i < comAcento.length; i++) {      
       str = str.replaceAll(comAcento[i], semAcento[i]);
     }
-    print(str);
     return str;
-}
+  }
 }
