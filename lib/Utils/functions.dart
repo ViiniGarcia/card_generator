@@ -9,24 +9,23 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 
 Future<List<BadgeEJC>> pickerExcelFile() async {
-  // Lets the user pick one file, but only files with the extensions `svg` and `pdf` can be selected
   FilePickerResult? pickedFile = await FilePicker.platform.pickFiles(
     type: FileType.custom,
     allowedExtensions: ['xlsx'],
     allowMultiple: false,
   );
 
-  Set<BadgeEJC> listBadges = {}; // 238
+  Set<BadgeEJC> listBadges = {};
   
   if (pickedFile != null) {
     Uint8List? bytes = pickedFile.files.single.bytes;
     Excel excel = Excel.decodeBytes(bytes!);
-    Sheet? table = excel.tables['Respostas ao formulário 1'];
+    Sheet? table = excel.tables.values.first;
     int? qntRows = table?.maxRows;
 
     for (int x = 1; x<=(qntRows! - 1); x++){
       var squad = table!.row(x).elementAt(1)?.value.toString().removeSpecialCaracters();
-      var name = table.row(x).elementAt(2)?.value.toString().toUpperCase();
+      var name = table.row(x).elementAt(2)?.value.toString().split(" ").nameCaptalize();
       var nickname = table.row(x).elementAt(3)?.value.toString().toUpperCase();
       listBadges.add(BadgeEJC(name: name!, nickname: nickname!, squad: squad!));
     }
@@ -36,16 +35,16 @@ Future<List<BadgeEJC>> pickerExcelFile() async {
 }
 
 Future<void> printDoc(List<BadgeEJC> listBadges) async {
-  final img = await rootBundle.load("assets/Regras.jpg");
   final robotoBlack = await PdfGoogleFonts.robotoBlack();
   final robotoCondensed = await PdfGoogleFonts.robotoCondensedBold();
-  final imageBytes = img.buffer.asUint8List();
   final doc = pw.Document();
   Uint8List pdf;
   List<pw.Widget> badgesWidgets = [];
   
   for (var badgeInfo in listBadges) {
     double fontSize = badgeInfo.nickname.length <= 10 ? 32 : 24;
+    ByteData img = await rootBundle.load("assets/${badgeInfo.squad}.png");
+    Uint8List imageBytes = img.buffer.asUint8List();
     badgesWidgets.add(pw.Container(
       padding: const pw.EdgeInsetsDirectional.fromSTEB(0, 0, 0, 61),
       decoration: pw.BoxDecoration(
