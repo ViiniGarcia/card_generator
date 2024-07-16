@@ -7,7 +7,6 @@ extension ListExtension on List {
       str += word.length > 4 ? "${word[0].toUpperCase()}${word.substring(1).toUpperCase()}" : word.toUpperCase();
       index++;
     }
-    print(str);
     return str;
   }
 }
