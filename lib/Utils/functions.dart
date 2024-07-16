@@ -68,7 +68,7 @@ Future<void> printDoc(List<BadgeEJC> listBadges) async {
   }
 
   doc.addPage(pw.MultiPage(
-      maxPages: 50,
+      maxPages: 200,
       pageFormat: PdfPageFormat.a4,
       build: (pw.Context context) {
         return [
