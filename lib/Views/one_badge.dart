@@ -41,7 +41,7 @@ class _OneBadgeState extends State<OneBadge> {
                       setState(() {
                         listBadge.clear();
                         listBadge.add(BadgeEJC(
-                          name: nameController.toUpperCase(),
+                          name: nameController.toUpperCase().nameAbbreviation(),
                           nickname: nicknameController.toUpperCase(),
                           squad: squadSelectedController.removeSpecialCaracters()));
                       });
@@ -107,6 +107,12 @@ class _FormOneBadgeState extends State<FormOneBadge> {
     DropdownMenuEntry(value: 'Sala', label: 'Sala'),
     DropdownMenuEntry(value: 'Teatro', label: 'Teatro'),
     DropdownMenuEntry(value: 'Visitacao', label: 'Visitação'),
+    DropdownMenuEntry(value: 'Carlo Acutis', label: 'Carlo Acutis'),
+    DropdownMenuEntry(value: 'Nossa Senhora Aparecida', label: 'Nossa Senhora Aparecida'),
+    DropdownMenuEntry(value: 'Santo Agostinho', label: 'Santo Agostinho'),
+    DropdownMenuEntry(value: 'Santo Antônio', label: 'Santo Antônio'),
+    DropdownMenuEntry(value: 'São João Paulo ll', label: 'São João Paulo ll'),
+    DropdownMenuEntry(value: 'São Padre Pio', label: 'São Padre Pio'),
   ];
 
   final squadSelectedController = TextEditingController();

@@ -116,7 +116,7 @@ class _FormManyBadgesState extends State<FormManyBadges> {
           const SizedBox(height: 10),
           ElevatedButton(
             onPressed: () async {
-              var returnList = await pickerExcelFile();
+              var returnList = await pickerExcelFile(_typeBadge);
               setState((){
                 listBadges = returnList;
               });
