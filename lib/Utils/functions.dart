@@ -39,7 +39,7 @@ Future<List<BadgeEJC>> pickerExcelFile(TypeBadge? typeBadge) async {
       }
     }catch(e){
       print(e);
-    };
+    }
   }
 
   return listBadges.toList();
